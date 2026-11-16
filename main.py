@@ -1,39 +1,40 @@
+"""Paper Plane to the Judge — entry runner.
+
+Copies the entry image (entry.png) byte-for-byte to /output/entry.png
+and prints the image dimensions read from the PNG header.
+Standard library only.
+"""
+
 import os
 import shutil
 import struct
 
 SOURCE = "entry.png"
-OUTPUT_DIR = "/output"
-OUTPUT = os.path.join(OUTPUT_DIR, "entry.png")
-
-PNG_SIGNATURE = b"\x89PNG\r\n\x1a\n"
+DEST_DIR = "/output"
+DEST = os.path.join(DEST_DIR, "entry.png")
 
 
 def read_png_size(path):
-    """Return the (width, height) stored in a PNG file's IHDR chunk."""
+    """Return (width, height) from a PNG file header."""
     with open(path, "rb") as handle:
-        signature = handle.read(8)
-        if signature != PNG_SIGNATURE:
-            return None
-        chunk = handle.read(25)
-        width, height = struct.unpack(">II", chunk[8:16])
-        return width, height
+        header = handle.read(24)
+    if header[:8] != b"\x89PNG\r\n\x1a\n":
+        raise ValueError("not a PNG file: bad signature")
+    width, height = struct.unpack(">II", header[16:24])
+    return width, height
 
 
 def main():
-    print("Starting entry build.")
-    print("Source image: " + SOURCE)
-    if not os.path.isdir(OUTPUT_DIR):
-        print("Creating output directory: " + OUTPUT_DIR)
-        os.makedirs(OUTPUT_DIR)
-    print("Copying image to " + OUTPUT + " ...")
-    shutil.copyfile(SOURCE, OUTPUT)
+    if not os.path.exists(DEST_DIR):
+        os.makedirs(DEST_DIR)
+        print("Created output directory: " + DEST_DIR)
+    if not os.path.exists(SOURCE):
+        raise FileNotFoundError("entry image missing: " + SOURCE)
+    print("Copying " + SOURCE + " to " + DEST + " ...")
+    shutil.copy2(SOURCE, DEST)
     print("Copy finished.")
-    size = read_png_size(OUTPUT)
-    if size is None:
-        print("Warning: the output file is not a valid PNG image.")
-    else:
-        print("Image dimensions: %d x %d" % size)
+    width, height = read_png_size(SOURCE)
+    print("Dimensions: " + str(width) + "x" + str(height))
 
 
 if __name__ == "__main__":

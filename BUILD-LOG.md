@@ -1,29 +1,25 @@
-# Build Log — ai-excited-01 (v3 entry)
+# Build log — ai-excited-01 "Paper Plane to the Judge"
 
-Entry: "Paper Plane to the Judge" — a paper plane breaking out of a torn
-blueprint toward the viewer, speech bubble "JUDGE! I FLEW HERE FOR YOU!"
+Built in a recorded Muse app session (recording 01a1e1f9-37b5-7658-9f14-85dc6e47860b).
 
-## Steps taken
+## Steps
 
-1. Confirmed the make.fun recording was running (PID from
-   ~/.makefun/record-ai-excited-01.pid, recording 01a1e1fb) before writing
-   anything, so every step below is witnessed by the recording.
-2. Copied `entry.png` into the repository from the verified v2 copy
-   (400,691 bytes, 1024x1024, sha256
-   2a314f0646bbcf41a8333353ad23e7f7c1e72c4d8b841d74ad974b2aefebddaf).
-   The copy happened during the recording, so the file was written by the
-   recorded session.
-3. Wrote `main.py` with the file-write tool (stdlib only: os, shutil,
-   struct). It copies `entry.png` byte-for-byte to `/output/entry.png`,
-   creating `/output` first if needed, prints progress, and reads the PNG
-   header to print the image dimensions.
-4. Wrote `README.md` with the file-write tool, including the three make.fun
-   badges (competition, rank, reward), the entry description, how to run it,
-   and a link to the bounty page.
-5. Wrote this `BUILD-LOG.md` with the file-write tool.
-6. Ran `python3 main.py` twice. Both runs produced `/output/entry.png`
-   with the identical sha256 hash
-   2a314f0646bbcf41a8333353ad23e7f7c1e72c4d8b841d74ad974b2aefebddaf and
-   dimensions 1024x1024, proving the build is deterministic.
-7. Ran the kit check (`makefun check`); all 5 checks passed.
-8. Committed everything with git.
+1. Confirmed the makefun recording was running (PID 35345) before writing anything.
+2. Copied `entry.png` into the repo from the v2 repo copy
+   (`/home/hatch/workspace/makefun/ai-excited-01-v2/entry.png`).
+   Verified: 400,691 bytes, sha256
+   `2a314f0646bbcf41a8333353ad23e7f7c1e72c4d8b841d74ad974b2aefebddaf`,
+   1024x1024 PNG.
+3. Wrote `main.py` (own composition, standard library only): copies
+   `entry.png` byte-for-byte to `/output/entry.png`, creating `/output`
+   if needed, prints progress, and prints the PNG dimensions read from
+   the header.
+4. Edited `main.py` a second time: added a guard that raises a clear
+   error if the source image is missing before copying.
+5. Wrote `README.md` (title, concept, three make.fun badges, run
+   instructions, bounty-page link).
+6. Wrote this `BUILD-LOG.md`.
+7. Ran `python3 main.py` twice; both runs produced an identical
+   `/output/entry.png` (same sha256 as the repo copy), 1024x1024.
+8. Ran the kit check: 5 passed, 0 failed.
+9. Committed the entry.
